@@ -9,7 +9,7 @@ site/
   fonts/          ← czcionka Bricolage Grotesque (hostowana lokalnie, bez Google Fonts)
   js/main.js      ← przewijanie do sekcji bez zmiany adresu, rok w stopce
   favicon.ico     ← ikona karty przeglądarki (dla starszych przeglądarek)
-  img/            ← logo, ikony (favicon.png, icon-512.png, apple-touch-icon.png), og-image.jpg (podgląd linku)
+  img/            ← logo, ikony (favicon.png, icon-512.png, apple-touch-icon.png), og-image.png (podgląd linku, 2400×1260)
   404.html        ← strona błędu 404
   .htaccess       ← ustawienia serwera Apache (strona 404)
 mockups/          ← makiety kierunków wizualnych (nie trafiają na serwer)
