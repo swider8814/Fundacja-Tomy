@@ -1,2 +1,59 @@
-# Serwer Apache (lh.pl): własna strona błędu 404
+# Ustawienia serwera Apache (lh.pl) dla strony Fundacji Tomy.
+# Każda sekcja <IfModule> działa tylko wtedy, gdy serwer ma dany moduł,
+# więc brak modułu niczego nie psuje.
+
+# --- Kodowanie i strona błędu ---------------------------------------------
+AddDefaultCharset UTF-8
 ErrorDocument 404 /404.html
+
+# --- Przekierowania ----------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) www.domena.pl -> https://domena.pl (od razu na HTTPS, jednym skokiem)
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # 2) http:// -> https://
+  #    Drugi warunek chroni przed pętlą, gdy HTTPS obsługuje serwer pośredniczący.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# --- Bezpieczeństwo ----------------------------------------------------------
+<IfModule mod_headers.c>
+  # Przeglądarka ma zawsze łączyć się przez HTTPS (przez rok).
+  # Przez zwykłe HTTP przeglądarki ten nagłówek ignorują, więc działa tylko po HTTPS.
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # Nie zgaduj typu plików
+  Header always set X-Content-Type-Options "nosniff"
+  # Nie pozwalaj osadzać strony w ramkach na innych stronach
+  Header always set X-Frame-Options "SAMEORIGIN"
+  # Innym stronom przekazuj tylko domenę, nie pełny adres
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  # Strona nie potrzebuje kamery, mikrofonu ani lokalizacji
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# --- Typy plików -------------------------------------------------------------
+AddType font/woff2 .woff2
+AddType image/x-icon .ico
+
+# --- Kompresja (szybsze ładowanie) ----------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript image/svg+xml image/x-icon
+</IfModule>
+
+# --- Pamięć podręczna przeglądarki ----------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 week"
+  # HTML zawsze świeży, żeby zmiany treści były widoczne od razu
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/x-icon "access plus 1 month"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
