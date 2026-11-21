@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fundacja Tomy — wariant E (ciemny, ciepły)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16130f;
+    --ink-2: #221e18;
+    --paper: #faf7f2;
+    --sand: #e4dccb;
+    --muted: #a39b8c;
+    --gold: #cdaa68;
+    --blue: #486ca0;
+    --terra: #cc6b5b;
+    --serif: "Fraunces", Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ink); color: var(--paper); font-family: "Libre Franklin", sans-serif; font-size: 17px; line-height: 1.6; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { margin: 0; font-weight: 400; }
+  em { font-family: var(--serif); font-style: italic; font-weight: 300; color: var(--gold); letter-spacing: -0.01em; }
+
+  .lockup { display: flex; align-items: center; gap: 14px; color: var(--paper); text-decoration: none; }
+  .lockup svg { width: 42px; height: 42px; display: block; }
+  .lockup .div { width: 1px; height: 28px; background: currentColor; opacity: .35; }
+  .lockup span { font-size: 13px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; }
+
+  header { position: absolute; inset: 0 0 auto; z-index: 5; }
+  .bar { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+  nav { display: none; gap: 32px; font-size: 15px; font-weight: 500; color: var(--sand); }
+  .burger { width: 46px; height: 46px; border-radius: 14px; background: var(--paper); display: grid; place-items: center; }
+  .burger span { width: 18px; height: 2px; background: var(--ink); box-shadow: 0 6px 0 var(--ink), 0 -6px 0 var(--ink); }
+
+  .label { display: flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
+  .label::before { content: ""; width: 28px; height: 1px; background: currentColor; }
+
+  .hero { position: relative; min-height: 100svh; display: flex; align-items: flex-end; padding: 120px 0 56px; overflow: hidden;
+    background: radial-gradient(120% 70% at 80% 10%, #2a2318 0%, var(--ink) 60%); }
+  .hero .mark { position: absolute; width: 132vw; max-width: 900px; aspect-ratio: 1; right: -38vw; top: 70px; color: transparent; }
+  .hero .mark path { stroke: var(--gold); stroke-width: 3; vector-effect: non-scaling-stroke; opacity: .55; }
+  .hero h1 { position: relative; font-size: clamp(44px, 12.5vw, 112px); line-height: .98; letter-spacing: -0.035em; font-weight: 500; }
+  .hero p { position: relative; max-width: 520px; color: var(--sand); font-size: 18px; margin: 28px 0 0; }
+  .scroll { position: relative; display: inline-flex; align-items: center; gap: 12px; margin-top: 40px; color: var(--paper); text-decoration: none; font-weight: 600; font-size: 15px; }
+  .scroll i { width: 44px; height: 44px; border: 1px solid #4a4339; border-radius: 50%; display: grid; place-items: center; font-style: normal; }
+
+  .about { background: var(--paper); color: var(--ink); padding: 80px 0; }
+  .about .label { color: #6f685d; }
+  .about h2 { font-family: var(--serif); font-weight: 300; font-size: clamp(30px, 7.5vw, 60px); line-height: 1.15; letter-spacing: -0.02em; }
+  .about h2 em { color: var(--terra); }
+  .about p { color: #4a4640; font-size: 18px; max-width: 620px; margin: 28px 0 0; }
+
+  .what { padding: 80px 0; }
+  .what h2 { font-size: clamp(34px, 8.5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; margin-bottom: 36px; }
+  .cards { display: grid; gap: 14px; }
+  .card { background: var(--ink-2); border: 1px solid #2f2a22; border-radius: 22px; padding: 28px; position: relative; overflow: hidden; }
+  .card .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; }
+  .card .top i { width: 12px; height: 12px; border-radius: 50%; }
+  .card .top span { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 20px; }
+  .card h3 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .card p { margin: 0; color: var(--muted); }
+
+  .info { background: var(--sand); color: var(--ink); padding: 80px 0; }
+  .info .label { color: #6f685d; }
+  .info h2 { font-size: clamp(34px, 8.5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; margin-bottom: 36px; }
+  .info h2 em { color: var(--blue); }
+  .mail { display: block; font-family: var(--serif); font-size: clamp(26px, 7vw, 44px); color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 10px; overflow-wrap: anywhere; }
+  .cols { display: grid; gap: 32px; margin-top: 40px; }
+  .col h3 { font-size: 12px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #6f685d; margin-bottom: 12px; }
+  .col p { margin: 0; font-size: 18px; }
+  .reg { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; font-size: 18px; }
+  .reg dt { color: #6f685d; }
+  .reg dd { margin: 0; font-weight: 600; }
+
+  footer { padding: 44px 0; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: grid; gap: 20px; }
+
+  @media (min-width: 900px) {
+    .wrap { padding: 0 32px; }
+    nav { display: flex; }
+    .burger { display: none; }
+    .hero { padding-bottom: 100px; }
+    .hero .mark { width: 760px; right: -80px; top: 90px; }
+    .about, .what, .info { padding: 130px 0; }
+    .cards { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { padding: 36px; min-height: 300px; display: flex; flex-direction: column; }
+    .card .top { margin-bottom: auto; }
+    .cols { grid-template-columns: repeat(3, 1fr); }
+    footer .wrap { grid-template-columns: 1fr auto; align-items: center; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="logo" viewBox="0 0 512 512">
+    <g fill="currentColor">
+      <path d="M87.7,92.3v-15.1h149.2v15.1h-66.1v138.4h-16.9V92.3h-66.1Z"/>
+      <path d="M436.7,153.9c0,11-2,21.3-6.1,31-4.1,9.7-9.7,18.1-16.8,25.2-7.1,7.1-15.4,12.7-25.1,16.8-9.7,4.1-19.9,6.1-30.9,6.1s-21.3-2-31-6.1c-9.7-4.1-18.1-9.7-25.2-16.8-7.1-7.1-12.7-15.5-16.8-25.2-4.1-9.7-6.1-20.1-6.1-31s2-21.3,6.1-31c4.1-9.7,9.7-18.1,16.8-25.2,7.1-7.1,15.5-12.7,25.2-16.8,9.7-4.1,20.1-6.1,31-6.1s21.3,2,30.9,6.1c9.7,4.1,18,9.7,25.1,16.8,7.1,7.1,12.7,15.5,16.8,25.2,4.1,9.7,6.1,20.1,6.1,31ZM419.7,153.9c0-8.9-1.6-17.3-4.8-25.1-3.2-7.8-7.6-14.5-13-20.2-5.5-5.6-12-10.1-19.6-13.4-7.6-3.3-15.7-4.9-24.3-4.9s-17,1.6-24.6,4.9c-7.6,3.3-14.1,7.7-19.6,13.4-5.5,5.6-9.8,12.3-13,20.2-3.2,7.8-4.8,16.2-4.8,25.1s1.6,17.3,4.8,25c3.2,7.7,7.6,14.5,13,20.1,5.5,5.7,12,10.2,19.6,13.5,7.6,3.3,15.8,4.9,24.6,4.9s16.7-1.6,24.3-4.9c7.6-3.3,14.1-7.8,19.6-13.5,5.5-5.7,9.8-12.4,13-20.1,3.2-7.7,4.8-16.1,4.8-25Z"/>
+      <path d="M163.5,426.2l-60.1-123v134h-15.8v-153.5h23.7l52.4,109,52.2-109h23.7v153.5h-16v-134.2l-60.1,123.2Z"/>
+      <path d="M358.7,437.2v-62.5l-61-91h19.7l50.2,76.1,50-76.1h19.1l-61.2,91.7v61.8h-16.9Z"/>
+      <polygon points="215.4 0 215.4 16 495.1 16 495.1 496 16.9 496 16.9 16 109.1 16 109.1 0 .9 0 .9 512 511.1 512 511.1 0 215.4 0"/>
+      <path d="M153.8,57.1h16.9V0h-16.9v57.1Z"/>
+    </g>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap bar">
+    <a class="lockup" href="#"><svg><use href="#logo"/></svg><i class="div"></i><span>Fundacja</span></a>
+    <nav><span>O fundacji</span><span>Czym się zajmujemy</span><span>Kontakt</span></nav>
+    <div class="burger"><span></span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="mark" viewBox="0 0 1000 1000" aria-hidden="true"><g fill="none"><path d="M680 0H1000V1000H0V0H320V100H100V900H900V100H680Z"/><path d="M450 380H240V280H760V380H550V800H450Z"/><path d="M450 0H550V200H450Z"/></g></svg>
+  <div class="wrap">
+    <div class="label">Fundacja Tomy</div>
+    <h1>Fundacja, która <em>służy</em> Kościołowi.</h1>
+    <p>Wspieramy działalność Społeczności Chrześcijańskiej Tomy — w Tomaszowie Mazowieckim, Łodzi i Piotrkowie Trybunalskim.</p>
+    <a class="scroll" href="#o-nas"><i>↓</i>Poznaj nas</a>
+  </div>
+</section>
+
+<section class="about" id="o-nas">
+  <div class="wrap">
+    <div class="label">O fundacji</div>
+    <h2>Powstaliśmy w 2014 roku, by dawać Kościołowi <em>solidne zaplecze</em> — formalne, organizacyjne i ludzkie.</h2>
+    <p>Tu krótki, 2–3 zdaniowy opis: dlaczego fundacja powstała, komu służy i jakie wartości nią kierują.</p>
+  </div>
+</section>
+
+<section class="what" id="dzialania">
+  <div class="wrap">
+    <div class="label">Czym się zajmujemy</div>
+    <h2>Trzy obszary, <em>jedna misja</em>.</h2>
+    <div class="cards">
+      <div class="card"><div class="top"><i style="background:var(--gold)"></i><span>01</span></div><h3>Zaplecze dla Kościoła</h3><p>Formalne i organizacyjne wsparcie bieżącej działalności społeczności.</p></div>
+      <div class="card"><div class="top"><i style="background:var(--blue)"></i><span>02</span></div><h3>Wydarzenia i spotkania</h3><p>Pomoc w organizacji nabożeństw, konferencji i wydarzeń otwartych.</p></div>
+      <div class="card"><div class="top"><i style="background:var(--terra)"></i><span>03</span></div><h3>Pomoc potrzebującym</h3><p>Wsparcie osób w trudnej sytuacji w naszym otoczeniu.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="info" id="kontakt">
+  <div class="wrap">
+    <div class="label">Kontakt</div>
+    <h2>Napisz <em>do nas</em>.</h2>
+    <a class="mail" href="#">fundacja@schtomy.pl →</a>
+    <div class="cols">
+      <div class="col"><h3>Adres</h3><p>ul. Jerozolimska 1E<br>97-200 Tomaszów Mazowiecki</p></div>
+      <div class="col"><h3>Telefon</h3><p>+48 000 000 000</p></div>
+      <div class="col"><h3>Dane rejestrowe</h3>
+        <dl class="reg"><dt>KRS</dt><dd>0000532500</dd><dt>NIP</dt><dd>000-000-00-00</dd><dt>REGON</dt><dd>000000000</dd></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="lockup" href="#"><svg><use href="#logo"/></svg><i class="div"></i><span>Fundacja</span></a>
+    <span>© 2026 Fundacja Tomy</span>
+  </div>
+</footer>
+</body>
+</html>
