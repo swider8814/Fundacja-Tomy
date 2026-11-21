@@ -35,4 +35,40 @@
     if (start) start.scrollIntoView({ block: 'start' });
     cleanUrl();
   }
+
+  // ---------- animacje ----------
+  var root = document.documentElement;
+  if (root.classList.contains('js-anim')) {
+    // Kafelki pojawiają się, gdy wjadą na ekran; te widoczne naraz — po kolei, co 110 ms
+    var batch = 0, reset;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var t = e.target, d = batch++ * 110;
+        t.style.setProperty('--d', d + 'ms');
+        t.classList.add('is-in');
+        setTimeout(function () { t.classList.add('settled'); }, d + 900);
+        io.unobserve(e.target);
+        clearTimeout(reset); reset = setTimeout(function () { batch = 0; }, 150);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.tile:not(.hero)').forEach(function (t) { io.observe(t); });
+    root.classList.add('anim-ready');
+
+    // Różowa plama: przy przewijaniu unosi się szybciej niż strona (efekt głębi).
+    // Żółta plama stoi w miejscu — zakrywa róg kafelka (patrz .hero w style.css).
+    var blob = document.querySelector('.hero .blob.two');
+    if (blob && 'translate' in blob.style) {
+      var ticking = false;
+      var move = function () {
+        ticking = false;
+        var y = Math.min(window.scrollY, 900);
+        blob.style.translate = '0 ' + (-y * 0.25).toFixed(1) + 'px';
+      };
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(move); }
+      }, { passive: true });
+      move();
+    }
+  }
 })();

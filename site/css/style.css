@@ -155,3 +155,58 @@ section[id] { scroll-margin-top: 16px; }
 @media (min-width: 900px) {
   .hero.error { min-height: 560px; }
 }
+
+/* ---------- animacje ---------- */
+
+/* Logo: łagodne pojawienie się */
+.lockup img { animation: a-logo .9s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes a-logo { from { opacity: 0; transform: translateY(-8px) scale(.94); } }
+
+/* Hasło: słowa wjeżdżają po kolei; potem opis i przycisk */
+.hero h1 .w {
+  display: inline-block; opacity: 0; transform: translateY(.4em);
+  animation: a-word .8s cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay: calc(300ms + var(--i) * 110ms);
+}
+@keyframes a-word { to { opacity: 1; transform: none; } }
+.hero .chip { animation: a-fade .8s ease .15s both; }
+.hero p { animation: a-fade .8s ease .75s both; }
+.hero-cta { animation: a-fade .8s ease .9s both; }
+@keyframes a-fade { from { opacity: 0; transform: translateY(10px); } }
+
+/* Kafelki: pojawiają się przy przewijaniu, po kolei (klasy ustawia js/main.js) */
+.js-anim .tile:not(.hero) {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--d, 0ms);
+}
+.js-anim .tile.is-in { opacity: 1; transform: none; }
+
+/* Ikony: jedno krótkie „podskoczenie”, gdy kafelek się pojawi */
+.js-anim .tile.is-in .ico { animation: a-pop .6s cubic-bezier(.3,1.6,.5,1) both; animation-delay: calc(var(--d, 0ms) + 250ms); }
+@keyframes a-pop { from { transform: scale(.6) rotate(-12deg); } }
+
+/* Różowa plama: ruch przy przewijaniu (ustawia js/main.js przez właściwość translate) */
+.blob.two { will-change: translate; }
+
+/* Najechanie myszką (tylko urządzenia z myszką) */
+@media (hover: hover) {
+  .tile.act, .tile.about, .tile.contact, .tile.registry { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+  /* po zakończeniu wjazdu (klasa .settled) kafelek reaguje na mysz od razu, bez opóźnienia */
+  .js-anim .tile.settled { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; transition-delay: 0ms; }
+  .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+  .ico { transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+  .tile.act:hover .ico { transform: rotate(-8deg) scale(1.1); }
+  .btn .arr { display: inline-block; transition: transform .25s ease; }
+  .btn:hover .arr { transform: translateX(5px); }
+  .btn:hover .arr.back { transform: translateX(-5px); }
+  .row dd a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .3s ease; }
+  .row dd a:hover { background-size: 100% 1px; }
+}
+
+/* Osoby, które w systemie wyłączyły animacje, nie zobaczą żadnej z nich */
+@media (prefers-reduced-motion: reduce) {
+  .lockup img, .hero h1 .w, .hero .chip, .hero p, .hero-cta, .tile .ico { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .tile, .ico, .btn .arr { transition: none !important; }
+  .tile:hover, .tile:hover .ico, .btn:hover .arr { transform: none !important; }
+}
