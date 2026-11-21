@@ -132,7 +132,6 @@ section[id] { scroll-margin-top: 96px; }
 .registry dl { margin: 0; display: grid; gap: 14px; }
 .registry dt { font-size: 14px; opacity: .7; }
 .registry dd { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
-.registry dd.name { font-size: 20px; }
 
 .site-footer { padding: 20px 12px 32px; font-size: 14px; opacity: .65; text-align: center; }
 .site-footer p { margin: 0; }
