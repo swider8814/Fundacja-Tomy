@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="SCh Tomy">
+	<!--
+		Znak SCh Tomy z www/branding/favicon.svg, przepisany na czysta siatke
+		1000x1000: macierze z eksportu Affinity sa zlozone w finalne
+		wspolrzedne, wiec ramka ma rowno 100 jednostek grubosci, przerwa w
+		gornej krawedzi biegnie 320-680, a stem krzyza 450-550. Belka pozioma
+		wychodzila z eksportu przesunieta o 1,3 jednostki w lewo
+		(238,68-758,68) - tu jest wysrodkowana na 240-760.
+
+		Jeden plik obsluguje oba motywy przegladarki: `prefers-color-scheme`
+		dziala wewnatrz SVG uzytego jako favikona (Chrome, Firefox, Edge,
+		Safari 17+). Na ciemnym znak idzie na krem, tak samo jak logo w stopce,
+		ktore CSS wybiela na ciemnym tle. Starsze Safari ignoruje SVG i siega
+		po PNG/ICO.
+	-->
+	<style>
+		:root {
+			--mark: #16130f; /* --ink */
+		}
+
+		@media (prefers-color-scheme: dark) {
+			:root {
+				--mark: #faf7f2; /* --paper */
+			}
+		}
+	</style>
+	<g fill="var(--mark)">
+		<path d="M680 0H1000V1000H0V0H320V100H100V900H900V100H680Z"/>
+		<path d="M450 380H240V280H760V380H550V800H450Z"/>
+		<path d="M450 0H550V200H450Z"/>
+	</g>
+</svg>

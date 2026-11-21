@@ -6,7 +6,9 @@ Prosta, statyczna strona (czysty HTML + CSS, bez żadnych narzędzi do budowania
 site/
   index.html      ← treść strony
   css/style.css   ← wygląd (kolory na górze pliku)
-  img/logo.svg    ← logo (na razie tymczasowe)
+  fonts/          ← czcionka Bricolage Grotesque (hostowana lokalnie, bez Google Fonts)
+  img/favicon.svg ← ikona w karcie przeglądarki (znak SCh Tomy)
+mockups/          ← makiety kierunków wizualnych (nie trafiają na serwer)
 .github/workflows/
   deploy-ftp.yml    ← automatyczny deploy na serwer FTP
   deploy-pages.yml  ← opcjonalny deploy na GitHub Pages
@@ -16,11 +18,9 @@ Na serwer trafia **tylko** zawartość katalogu `site/`.
 
 ## Edycja treści
 
-Wszystkie miejsca do uzupełnienia są w `site/index.html` w nawiasach kwadratowych, np. `[Tu opis fundacji…]`,
-numer konta, KRS, NIP, dane kontaktowe.
+Cała treść jest w `site/index.html`. Miejsca wymagające potwierdzenia są oznaczone komentarzem `TODO`.
 
-**Logo:** wgraj plik do `site/img/`. Jeśli to SVG – nadpisz `logo.svg`. Jeśli PNG/JPG – wgraj np. `logo.png`
-i w `index.html` zmień `img/logo.svg` na `img/logo.png` (dwa miejsca: `<link rel="icon">` i `<img class="brand-logo">`).
+**Logo:** logo SCh Tomy jest wstawione bezpośrednio w HTML (`<symbol id="logo">`), żeby przyjmowało kolor tekstu.
 
 Podgląd lokalnie: wystarczy otworzyć `site/index.html` w przeglądarce.
 
