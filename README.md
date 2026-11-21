@@ -7,7 +7,9 @@ site/
   index.html      ← treść strony
   css/style.css   ← wygląd (kolory na górze pliku)
   fonts/          ← czcionka Bricolage Grotesque (hostowana lokalnie, bez Google Fonts)
-  img/            ← logo i ikony
+  img/            ← logo, ikony, og-image.jpg (podgląd linku)
+  404.html        ← strona błędu 404
+  .htaccess       ← ustawienia serwera Apache (strona 404)
 mockups/          ← makiety kierunków wizualnych (nie trafiają na serwer)
 .github/workflows/
   deploy-ftp.yml    ← automatyczny deploy na serwer FTP

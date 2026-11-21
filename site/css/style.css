@@ -160,3 +160,8 @@ section[id] { scroll-margin-top: 96px; }
   .blob { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+/* strona 404 */
+@media (min-width: 900px) {
+  .hero.error { grid-column: 1 / -1; grid-row: auto; min-height: 560px; }
+}

@@ -1,0 +1,2 @@
+# Serwer Apache (lh.pl): własna strona błędu 404
+ErrorDocument 404 /404.html
