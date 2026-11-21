@@ -7,7 +7,7 @@ site/
   index.html      ← treść strony
   css/style.css   ← wygląd (kolory na górze pliku)
   fonts/          ← czcionka Bricolage Grotesque (hostowana lokalnie, bez Google Fonts)
-  img/favicon.svg ← ikona w karcie przeglądarki (znak SCh Tomy)
+  img/favicon.svg ← ikona w karcie przeglądarki
 mockups/          ← makiety kierunków wizualnych (nie trafiają na serwer)
 .github/workflows/
   deploy-ftp.yml    ← automatyczny deploy na serwer FTP
@@ -20,7 +20,7 @@ Na serwer trafia **tylko** zawartość katalogu `site/`.
 
 Cała treść jest w `site/index.html`. Miejsca wymagające potwierdzenia są oznaczone komentarzem `TODO`.
 
-**Logo:** logo SCh Tomy jest wstawione bezpośrednio w HTML (`<symbol id="logo">`), żeby przyjmowało kolor tekstu.
+**Logo:** na razie znaczek „T” zrobiony w CSS (`.lockup` w `index.html`) i `img/favicon.svg`. Docelowe logo można podmienić w tych dwóch miejscach.
 
 Podgląd lokalnie: wystarczy otworzyć `site/index.html` w przeglądarce.
 
