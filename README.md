@@ -7,7 +7,7 @@ site/
   index.html      ← treść strony
   css/style.css   ← wygląd (kolory na górze pliku)
   fonts/          ← czcionka Bricolage Grotesque (hostowana lokalnie, bez Google Fonts)
-  img/favicon.svg ← ikona w karcie przeglądarki
+  img/            ← logo i ikony
 mockups/          ← makiety kierunków wizualnych (nie trafiają na serwer)
 .github/workflows/
   deploy-ftp.yml    ← automatyczny deploy na serwer FTP
@@ -20,7 +20,7 @@ Na serwer trafia **tylko** zawartość katalogu `site/`.
 
 Cała treść jest w `site/index.html`. Miejsca wymagające potwierdzenia są oznaczone komentarzem `TODO`.
 
-**Logo:** na razie znaczek „T” zrobiony w CSS (`.lockup` w `index.html`) i `img/favicon.svg`. Docelowe logo można podmienić w tych dwóch miejscach.
+**Logo:** `site/img/logo.png` (kolor) i `logo-white.png` (białe, na ciemne tła), z przezroczystym tłem. Ikony: `favicon.png`, `apple-touch-icon.png`. Kolor marki z logo: `#b12341` (zmienna `--brand` w `css/style.css`).
 
 Podgląd lokalnie: wystarczy otworzyć `site/index.html` w przeglądarce.
 
