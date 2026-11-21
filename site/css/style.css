@@ -1,0 +1,167 @@
+/* Fundacja Tomy — wariant C (kafelki) */
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("../fonts/bricolage-latin-ext.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("../fonts/bricolage-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --bg: #f1efe9;
+  --ink: #16161a;
+  --brand: #b12341;   /* czerwień z logo */
+  --blush: #f9d5dc;
+  --sun: #ffd46b;
+  --lilac: #ddd0ff;
+  --line: #e6e4de;
+  --r: 28px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; }
+section[id] { scroll-margin-top: 96px; }
+
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 12px; }
+
+/* ---------- nagłówek ---------- */
+.site-header { position: sticky; top: 0; z-index: 10; padding: 12px 0; }
+.bar {
+  display: flex; align-items: center; justify-content: space-between;
+  background: #fff; border-radius: 999px; padding: 8px 8px 8px 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .06);
+}
+.lockup { display: block; line-height: 0; }
+.lockup img { height: 44px; width: auto; }
+.nav { display: none; gap: 28px; font-weight: 600; }
+.nav a { text-decoration: none; }
+.nav a:hover { color: var(--brand); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--ink); color: #fff; text-decoration: none;
+  font-weight: 600; border-radius: 999px; padding: 12px 20px;
+  transition: transform .15s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn.light { background: #fff; color: var(--ink); }
+
+/* ---------- kafelki ---------- */
+.bento { display: grid; gap: 12px; padding-bottom: 12px; }
+.tile { border-radius: var(--r); padding: 24px; position: relative; overflow: hidden; }
+.k { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin-bottom: 14px; }
+
+/* hero */
+.hero {
+  background: var(--brand); color: #fff; min-height: 520px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.hero-text, .hero-cta { position: relative; z-index: 1; }
+.chip {
+  display: inline-block; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px; padding: 6px 12px; font-size: 14px; font-weight: 600; margin-bottom: 20px;
+}
+.hero h1 { font-size: clamp(50px, 14vw, 128px); line-height: .9; }
+.hero p { font-size: 18px; max-width: 400px; margin: 18px 0 24px; opacity: .92; }
+.blob {
+  position: absolute; width: 200px; height: 200px; right: -60px; bottom: -60px;
+  background: var(--sun); border-radius: 46% 54% 40% 60% / 55% 45% 55% 45%;
+  animation: morph 9s ease-in-out infinite;
+}
+.blob.two { width: 90px; height: 90px; right: 150px; bottom: 30px; background: var(--blush); animation-duration: 12s; }
+@keyframes morph {
+  50% { border-radius: 60% 40% 55% 45% / 40% 60% 40% 60%; transform: rotate(25deg) scale(1.05); }
+}
+
+/* kafelek z logo (tylko na komputerze) */
+.logo-tile { display: none; background: #fff; }
+.logo-tile img { width: 100%; height: auto; display: block; }
+
+/* o fundacji */
+.about { background: #fff; }
+.about h2 { font-size: 34px; margin-bottom: 10px; }
+.about p { margin: 0; font-size: 18px; max-width: 620px; }
+
+/* działania */
+.act h3 { font-size: 28px; margin: 40px 0 6px; }
+.act p { margin: 0; }
+.ico {
+  width: 56px; height: 56px; border-radius: 18px; background: var(--ink);
+  display: grid; place-items: center;
+}
+.ico svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.blush { background: var(--blush); }
+.lilac { background: var(--lilac); }
+.sun { background: var(--sun); }
+
+/* kontakt */
+.contact { background: #fff; display: flex; flex-direction: column; gap: 16px; }
+.contact h2 { font-size: 34px; }
+.rows { margin: 0; }
+.row {
+  display: flex; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap;
+  padding: 14px 0; border-top: 1px solid var(--line);
+}
+.row dt { opacity: .55; }
+.row dd { margin: 0; font-weight: 600; text-align: right; }
+.row a { text-decoration: none; }
+.row a:hover { color: var(--brand); }
+
+/* dane rejestrowe */
+.registry { background: var(--brand); color: #fff; }
+.registry .k { opacity: .75; }
+.registry dl { margin: 0; display: grid; gap: 14px; }
+.registry dt { font-size: 14px; opacity: .7; }
+.registry dd { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+
+.site-footer { padding: 20px 12px 32px; font-size: 14px; opacity: .65; text-align: center; }
+.site-footer p { margin: 0; }
+
+/* ---------- komputer ---------- */
+@media (min-width: 900px) {
+  .wrap { padding: 0 20px; }
+  .site-header { padding: 20px 0; }
+  .bar { padding-left: 20px; }
+  .nav { display: flex; }
+
+  .bento { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .tile { padding: 36px; }
+
+  .hero { grid-column: span 3; grid-row: span 2; min-height: 600px; }
+  .blob { width: 420px; height: 420px; right: -90px; bottom: -110px; }
+  .blob.two { width: 160px; height: 160px; right: 360px; bottom: 60px; }
+  .logo-tile { display: grid; place-items: center; grid-row: span 2; padding: 40px 32px; }
+  .lockup img { height: 48px; }
+
+  .about { grid-column: span 2; }
+  .contact { grid-column: span 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* strona 404 */
+@media (min-width: 900px) {
+  .hero.error { grid-column: 1 / -1; grid-row: auto; min-height: 560px; }
+}

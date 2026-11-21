@@ -1,0 +1,53 @@
+name: Deploy na serwer FTP
+
+# Uruchamia się po każdym pushu do gałęzi main, która zmienia coś w katalogu site/
+# oraz ręcznie z zakładki Actions ("Run workflow").
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - ".github/workflows/deploy-ftp.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ftp
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+      LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+      # Katalog na serwerze, do którego trafia strona (np. public_html). Domyślnie katalog główny konta FTP.
+      FTP_REMOTE_DIR: ${{ vars.FTP_REMOTE_DIR || '.' }}
+    steps:
+      - name: Sprawdź konfigurację
+        id: check
+        run: |
+          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USERNAME" ] || [ -z "$LFTP_PASSWORD" ]; then
+            echo "::warning::Brak sekretów FTP_SERVER / FTP_USERNAME / FTP_PASSWORD – pomijam deploy. Instrukcja w README.md."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v5
+        if: steps.check.outputs.ready == 'true'
+
+      - name: Zainstaluj lftp
+        if: steps.check.outputs.ready == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Wyślij pliki na serwer
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          lftp -c "
+            set ftp:ssl-allow true;
+            set net:max-retries 3;
+            set net:timeout 30;
+            open -u \"$FTP_USERNAME\" --env-password \"$FTP_SERVER\";
+            mirror --reverse --verbose --only-newer --parallel=4 site/ \"$FTP_REMOTE_DIR\";
+          "
