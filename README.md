@@ -7,7 +7,7 @@ site/
   index.html      ← treść strony
   css/style.css   ← wygląd (kolory na górze pliku)
   fonts/          ← czcionka Bricolage Grotesque (hostowana lokalnie, bez Google Fonts)
-  js/main.js      ← przewijanie do sekcji bez zmiany adresu, rok w stopce
+  js/main.js      ← przewijanie bez zmiany adresu, animacje kafelków i plamy, rok w stopce
   favicon.ico     ← ikona karty przeglądarki (dla starszych przeglądarek)
   img/            ← logo, ikony (favicon.png, icon-512.png, apple-touch-icon.png), og-image.png (podgląd linku, 2400×1260)
   404.html        ← strona błędu 404
