@@ -11,18 +11,22 @@ site/
   favicon.ico     ← ikona karty przeglądarki (dla starszych przeglądarek)
   img/            ← logo, ikony (favicon.png, icon-512.png, apple-touch-icon.png), og-image.png (podgląd linku, 2400×1260)
   404.html        ← strona błędu 404
-  .htaccess       ← ustawienia serwera Apache (strona 404)
-mockups/          ← makiety kierunków wizualnych (nie trafiają na serwer)
+  .htaccess       ← ustawienia serwera Apache: HTTPS, przekierowanie domen na fundacjatomy.pl, 404, nagłówki, cache
+  robots.txt, sitemap.xml ← dla wyszukiwarek
 .github/workflows/
-  deploy-ftp.yml    ← automatyczny deploy na serwer FTP
-  deploy-pages.yml  ← opcjonalny deploy na GitHub Pages
+  deploy-ftp.yml  ← automatyczny deploy na serwer FTP
 ```
 
 Na serwer trafia **tylko** zawartość katalogu `site/`.
 
 ## Edycja treści
 
-Cała treść jest w `site/index.html`. Miejsca wymagające potwierdzenia są oznaczone komentarzem `TODO`.
+Cała treść jest w `site/index.html`.
+
+- **E-mail** jest w HTML zapisany od tyłu (`data-u`, `data-d` w linku `.js-mail`) i składany przez `js/main.js` — ochrona przed robotami zbierającymi adresy. Przy zmianie adresu odwróć nowe części, np. `kontakt` → `tkatnok`.
+- **Dane dla wyszukiwarek** (JSON-LD, typ `NGO`) są w `<head>` strony głównej — przy zmianie danych rejestrowych zaktualizuj je też tam.
+- **Statystyki odwiedzin:** skrypt `wykr.es` w `<head>` (`index.html`, `404.html`), bez plików cookies.
+- **sitemap.xml:** przy dodaniu nowej podstrony dopisz jej adres.
 
 **Logo:** `site/img/logo.png` (kolor) i `logo-white.png` (białe, na ciemne tła), z przezroczystym tłem. Ikony: `favicon.png`, `apple-touch-icon.png`. Kolor marki z logo: `#b12341` (zmienna `--brand` w `css/style.css`).
 
@@ -62,16 +66,3 @@ Uwagi:
 - Pliki usunięte z repozytorium **nie są** kasowane z serwera (żeby przypadkiem nie usunąć innych plików na koncie).
 - Jeśli deploy kończy się błędem certyfikatu (częste na hostingach współdzielonych), w `deploy-ftp.yml`
   dopisz linię `set ssl:verify-certificate false;` pod `set ftp:ssl-allow true;`.
-
-## Deploy na GitHub Pages (alternatywa)
-
-To repozytorium jest **prywatne** – GitHub Pages dla prywatnych repozytoriów wymaga płatnego planu
-(GitHub Pro/Team). Przy darmowym koncie trzeba by repozytorium uczynić publicznym.
-
-Jeśli chcesz z tego skorzystać:
-1. **Settings → Pages → Build and deployment → Source:** wybierz **GitHub Actions**.
-2. **Actions → Deploy na GitHub Pages → Run workflow**.
-3. Strona będzie pod adresem `https://<użytkownik>.github.io/Fundacja-Tomy/`.
-   Własną domenę ustawisz w **Settings → Pages → Custom domain**.
-
-Żeby Pages publikowało automatycznie po każdym pushu, odkomentuj sekcję `push:` w `deploy-pages.yml`.

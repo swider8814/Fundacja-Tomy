@@ -4,6 +4,15 @@
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 
+  // Adres e-mail składany dopiero w przeglądarce (w kodzie strony jest zapisany od tyłu),
+  // żeby roboty zbierające adresy do spamu nie znalazły go w HTML.
+  document.querySelectorAll('.js-mail').forEach(function (a) {
+    var rev = function (s) { return (s || '').split('').reverse().join(''); };
+    var addr = rev(a.getAttribute('data-u')) + '@' + rev(a.getAttribute('data-d'));
+    a.href = 'mailto:' + addr;
+    a.textContent = addr;
+  });
+
   var cleanUrl = function () {
     if (location.hash) history.replaceState(null, '', location.pathname + location.search);
   };
