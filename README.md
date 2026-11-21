@@ -28,6 +28,11 @@ Cała treść jest w `site/index.html`. Miejsca wymagające potwierdzenia są oz
 
 Podgląd lokalnie: wystarczy otworzyć `site/index.html` w przeglądarce.
 
+**Wersje plików CSS i JS:** w HTML adresy mają postać `css/style.css?v=__HASH__`. Przy wysyłce na serwer workflow
+zamienia `__HASH__` na skrót zawartości pliku, więc po każdej zmianie CSS lub JS przeglądarki od razu pobierają nową wersję
+(a niezmienione pliki trzymają w pamięci podręcznej przez rok). Przy dodawaniu nowego pliku CSS/JS dopisz go do pętli
+w kroku „Wersje plików CSS i JS” w `.github/workflows/deploy-ftp.yml`.
+
 ## Deploy na serwer FTP (zalecane)
 
 Po każdym pushu do gałęzi `main` (zmiana w `site/`) GitHub sam wyśle pliki na serwer.

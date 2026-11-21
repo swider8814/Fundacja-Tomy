@@ -41,6 +41,18 @@ jobs:
         if: steps.check.outputs.ready == 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
+      - name: Wersje plików CSS i JS (odświeżenie pamięci podręcznej przeglądarek)
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          # "?v=__HASH__" w HTML -> "?v=<8 znaków skrótu zawartości pliku>".
+          # Zmienia się tylko wtedy, gdy zmieni się plik, więc przeglądarki pobierają go od nowa dokładnie wtedy, kiedy trzeba.
+          for f in css/style.css js/main.js; do
+            h=$(sha256sum "site/$f" | cut -c1-8)
+            sed -i "s#${f}?v=__HASH__#${f}?v=${h}#g" site/*.html
+            echo "$f -> $h"
+          done
+          if grep -n "__HASH__" site/*.html; then echo "::error::Został nieuzupełniony znacznik __HASH__"; exit 1; fi
+
       - name: Wyślij pliki na serwer
         if: steps.check.outputs.ready == 'true'
         run: |
