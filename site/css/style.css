@@ -65,7 +65,11 @@ section[id] { scroll-margin-top: 16px; }
 
 /* hero */
 .hero {
-  background: var(--brand); color: #fff; min-height: 520px;
+  /* W prawym dolnym rogu, pod żółtą plamą, tło też jest żółte: inaczej na zaokrąglonej
+     krawędzi rogu prześwituje cienka czerwona obwódka spod plamy. */
+  --under-blob: 125px; /* promień żółtego pola w rogu – zawsze mniejszy niż plama */
+  background: radial-gradient(circle at 100% 100%, var(--sun) 0 var(--under-blob), var(--brand) calc(var(--under-blob) + 1px));
+  color: #fff; min-height: 520px;
   display: flex; flex-direction: column; justify-content: space-between;
 }
 .hero-text, .hero-cta { position: relative; z-index: 1; }
@@ -133,7 +137,7 @@ section[id] { scroll-margin-top: 16px; }
   .bento { grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .tile { padding: 36px; }
 
-  .hero { grid-column: 1 / -1; min-height: 560px; }
+  .hero { grid-column: 1 / -1; min-height: 560px; --under-blob: 180px; }
   .blob { width: 420px; height: 420px; right: -90px; bottom: -110px; }
   .blob.two { width: 160px; height: 160px; right: 360px; bottom: 60px; }
   .lockup img { height: 120px; }
