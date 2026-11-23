@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- iOS/Safari: nie zamieniaj numerów (KRS, NIP, REGON) na linki do dzwonienia -->
   <meta name="format-detection" content="telephone=no">
+  <!-- Jasny i ciemny wygląd według ustawień systemu; rozmiar tekstu według ustawień systemu (Android, Chrome) -->
+  <meta name="color-scheme" content="light dark">
+  <meta name="text-scale" content="scale">
   <title>Fundacja Tomy</title>
   <meta name="description" content="Fundacja Tomy przeciwdziała wykluczeniu społecznemu i wspiera rodziny oraz osoby w trudnej sytuacji życiowej, w tym dzieci – pomocą edukacyjną i świetlicową.">
   <meta name="theme-color" content="#b12341">
@@ -81,8 +84,12 @@
     <div class="bar">
       <a class="lockup" href="/" data-home aria-label="Fundacja Tomy – strona główna">
         <picture>
-          <source type="image/avif" srcset="img/logo-150.avif 150w, img/logo-300.avif 300w" sizes="(min-width: 900px) 142px, 100px">
-          <source type="image/webp" srcset="img/logo-150.webp 150w, img/logo-300.webp 300w" sizes="(min-width: 900px) 142px, 100px">
+          <!-- Tryb ciemny: logo z jasnymi literami -->
+          <source media="(prefers-color-scheme: dark)" type="image/avif" srcset="img/logo-dark-150.avif 150w, img/logo-dark-300.avif 300w" sizes="(min-width: 56.25em) 142px, 100px">
+          <source media="(prefers-color-scheme: dark)" type="image/webp" srcset="img/logo-dark-150.webp 150w, img/logo-dark-300.webp 300w" sizes="(min-width: 56.25em) 142px, 100px">
+          <source media="(prefers-color-scheme: dark)" srcset="img/logo-dark-300.png">
+          <source type="image/avif" srcset="img/logo-150.avif 150w, img/logo-300.avif 300w" sizes="(min-width: 56.25em) 142px, 100px">
+          <source type="image/webp" srcset="img/logo-150.webp 150w, img/logo-300.webp 300w" sizes="(min-width: 56.25em) 142px, 100px">
           <img src="img/logo-300.png" alt="Fundacja Tomy" width="300" height="254">
         </picture>
       </a>
@@ -95,7 +102,7 @@
   <section class="tile hero">
     <div class="hero-text">
       <span class="chip">👋 Cześć, tu Fundacja Tomy</span>
-      <h1><span class="w" style="--i:0">Dobro</span> <span class="w" style="--i:1">robi</span> <span class="w" style="--i:2">się</span> <span class="w" style="--i:3">razem.</span></h1>
+      <h1><span class="w">Dobro</span> <span class="w">robi</span> <span class="w">się</span> <span class="w">razem.</span></h1>
       <p>Wspieramy rodziny, dzieci i&nbsp;osoby w&nbsp;trudnej sytuacji życiowej — tak, by nikt nie został sam.</p>
     </div>
     <div class="hero-cta"><a class="btn light" href="#dzialania">Czym się zajmujemy <span class="arr" aria-hidden="true">→</span></a></div>

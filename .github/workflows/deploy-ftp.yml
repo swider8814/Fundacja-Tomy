@@ -53,6 +53,29 @@ jobs:
           done
           if grep -n "__HASH__" site/*.html; then echo "::error::Został nieuzupełniony znacznik __HASH__"; exit 1; fi
 
+      - name: Sprawdź skróty skryptów w Content-Security-Policy
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          # Każdy skrypt wpisany bezpośrednio w HTML (bez src, z wyjątkiem danych JSON-LD) musi mieć
+          # swój skrót sha256 w nagłówku CSP w site/.htaccess — inaczej przeglądarka go zablokuje.
+          python3 - <<'PY'
+          import base64, glob, hashlib, re, sys
+          csp = open("site/.htaccess", encoding="utf-8").read()
+          bad = []
+          for f in sorted(glob.glob("site/*.html")):
+              html = open(f, encoding="utf-8").read()
+              for attrs, body in re.findall(r"<script(?![^>]*\bsrc=)([^>]*)>(.*?)</script>", html, re.S):
+                  if "application/ld+json" in attrs:
+                      continue
+                  h = "'sha256-" + base64.b64encode(hashlib.sha256(body.encode()).digest()).decode() + "'"
+                  print(f, h)
+                  if h not in csp:
+                      bad.append((f, h))
+          for f, h in bad:
+              print(f"::error file={f}::Skrypt w {f} ma skrót {h}, którego nie ma w Content-Security-Policy w site/.htaccess. Wpisz go tam zamiast starego.")
+          sys.exit(1 if bad else 0)
+          PY
+
       - name: Wyślij pliki na serwer
         if: steps.check.outputs.ready == 'true'
         run: |

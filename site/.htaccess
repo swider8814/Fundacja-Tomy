@@ -29,8 +29,16 @@ ErrorDocument 404 /404.html
   Header always set Strict-Transport-Security "max-age=31536000"
   # Nie zgaduj typu plików
   Header always set X-Content-Type-Options "nosniff"
-  # Nie pozwalaj osadzać strony w ramkach na innych stronach
-  Header always set X-Frame-Options "SAMEORIGIN"
+  # Nie pozwalaj osadzać strony w ramkach (nigdzie, także na tej samej domenie)
+  Header always set X-Frame-Options "DENY"
+  # Content-Security-Policy: przeglądarka uruchomi tylko skrypty z tej domeny, statystyki wykr.es
+  # i jeden skrypt wpisany w <head> strony głównej (rozpoznawany po skrócie sha256).
+  # UWAGA: po każdej zmianie tego skryptu w index.html trzeba tu wpisać nowy skrót
+  # (workflow deploy-ftp.yml sprawdza to przed wysyłką i przerwie ją, jeśli skrót się nie zgadza).
+  # Zmiana adresu statystyk wymaga zmiany adresu wykr.es w script-src i connect-src.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-w9zwLgaq2CvrStGRzOR3MstRfkyuRjE+79Vr45CEwUo=' https://mws03-53316.wykr.es; connect-src 'self' https://mws03-53316.wykr.es; img-src 'self'; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+  # Okno strony nie dzieli kontekstu z oknami otwartymi z innych stron
+  Header always set Cross-Origin-Opener-Policy "same-origin"
   # Innym stronom przekazuj tylko domenę, nie pełny adres
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   # Strona nie potrzebuje kamery, mikrofonu ani lokalizacji
