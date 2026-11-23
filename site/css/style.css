@@ -146,7 +146,7 @@ section[id] { scroll-margin-top: 16px; }
   padding: 14px 0; border-top: 1px solid var(--line);
 }
 .row dt { opacity: .7; } /* nie mniej niż .7 – inaczej za słaby kontrast */
-.row dd { margin: 0; font-weight: 600; text-align: right; min-width: 0; }
+.row dd { margin: 0; font-weight: 600; text-align: end; min-width: 0; } /* end: przy tłumaczeniu na język pisany od prawej wyrównanie się odwraca */
 .row a { text-decoration: none; overflow-wrap: anywhere; }
 .row a:hover { color: var(--brand-text); }
 /* Link e-mail: większy obszar do kliknięcia (min. 24px, a na ekranach dotykowych 44px),
@@ -212,7 +212,7 @@ section[id] { scroll-margin-top: 16px; }
 
   /* Logo: łagodne pojawienie się */
   .lockup img { animation: a-logo .9s cubic-bezier(.2,.7,.2,1) both; }
-  @keyframes a-logo { from { opacity: 0; transform: translateY(-8px) scale(.94); } }
+  @keyframes a-logo { from { opacity: 0; translate: 0 -8px; scale: .94; } }
 
   /* Hasło: słowa wjeżdżają po kolei (co 110 ms), potem opis i przycisk.
      Opóźnienie liczone z pozycji słowa (sibling-index); starsze przeglądarki dostają je z :nth-child. */
@@ -226,17 +226,17 @@ section[id] { scroll-margin-top: 16px; }
     .hero h1 .w:nth-child(4) { animation-delay: 630ms; }
     .hero h1 .w:nth-child(5) { animation-delay: 740ms; }
   }
-  @keyframes a-word { from { opacity: 0; transform: translateY(.4em); } }
+  @keyframes a-word { from { opacity: 0; translate: 0 .4em; } }
   .hero .chip { animation: a-fade .8s ease .15s both; }
   .hero p { animation: a-fade .8s ease .75s both; }
   .hero-cta { animation: a-fade .8s ease .9s both; }
-  @keyframes a-fade { from { opacity: 0; transform: translateY(10px); } }
+  @keyframes a-fade { from { opacity: 0; translate: 0 10px; } }
 
   /* Plamy: jedna zmiana kształtu po wejściu na stronę, potem stoją */
   .blob { animation: morph 9s ease-in-out; }
   .blob.two { animation-duration: 12s; }
   @keyframes morph {
-    50% { border-radius: 60% 40% 55% 45% / 40% 60% 40% 60%; transform: rotate(25deg) scale(1.05); }
+    50% { border-radius: 60% 40% 55% 45% / 40% 60% 40% 60%; rotate: 25deg; scale: 1.05; }
   }
 
   /* Różowa plama: przy przewijaniu unosi się szybciej niż strona (efekt głębi).
@@ -253,30 +253,36 @@ section[id] { scroll-margin-top: 16px; }
     @keyframes a-rise { to { translate: 0 -225px; } }
   }
 
+  /* Przesunięcia, obroty i powiększenia są osobnymi właściwościami (translate, rotate, scale),
+     więc np. wjazd kafelka i reakcja ikony na mysz nie nadpisują się nawzajem.
+     Wartości wyjściowe ustawione z góry: najechanie myszką nie zmienia kolejności nakładania elementów. */
+  .tile:not(.hero), .btn, .btn .arr { translate: 0; }
+  .ico { rotate: 0deg; scale: 1; }
+
   /* Kafelki: pojawiają się przy przewijaniu, po kolei (klasy ustawia js/main.js) */
   .js-anim .tile:not(.hero) {
-    opacity: 0; transform: translateY(28px);
-    transition: opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+    opacity: 0; translate: 0 28px;
+    transition: opacity .7s ease, translate .8s cubic-bezier(.2,.7,.2,1);
     transition-delay: var(--d, 0ms);
   }
-  .js-anim .tile.is-in { opacity: 1; transform: none; }
+  .js-anim .tile.is-in { opacity: 1; translate: 0; }
 
   /* Ikony: jedno krótkie „podskoczenie”, gdy kafelek się pojawi */
   .js-anim .tile.is-in .ico { animation: a-pop .6s cubic-bezier(.3,1.6,.5,1) both; animation-delay: calc(var(--d, 0ms) + 250ms); }
-  @keyframes a-pop { from { transform: scale(.6) rotate(-12deg); } }
+  @keyframes a-pop { from { scale: .6; rotate: -12deg; } }
 }
 
 /* Ruch po najechaniu myszką */
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .btn { transition: transform .15s ease; }
-  .btn:hover { transform: translateY(-2px); }
-  .tile.act, .tile.about, .tile.contact, .tile.registry { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
+  .btn { transition: translate .15s ease; }
+  .btn:hover { translate: 0 -2px; }
+  .tile.act, .tile.about, .tile.contact, .tile.registry { transition: translate .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
   /* po zakończeniu wjazdu (klasa .settled) kafelek reaguje na mysz od razu, bez opóźnienia */
-  .js-anim .tile.settled { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; transition-delay: 0ms; }
-  .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { transform: translateY(-6px); }
-  .ico { transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
-  .tile.act:hover .ico { transform: rotate(-8deg) scale(1.1); }
-  .btn .arr { display: inline-block; transition: transform .25s ease; }
-  .btn:hover .arr { transform: translateX(5px); }
-  .btn:hover .arr.back { transform: translateX(-5px); }
+  .js-anim .tile.settled { transition: translate .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; transition-delay: 0ms; }
+  .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { translate: 0 -6px; }
+  .ico { transition: rotate .35s cubic-bezier(.3,1.6,.5,1), scale .35s cubic-bezier(.3,1.6,.5,1); }
+  .tile.act:hover .ico { rotate: -8deg; scale: 1.1; }
+  .btn .arr { display: inline-block; transition: translate .25s ease; }
+  .btn:hover .arr { translate: 5px; }
+  .btn:hover .arr.back { translate: -5px; }
 }
