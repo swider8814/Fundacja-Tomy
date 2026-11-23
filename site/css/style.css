@@ -15,15 +15,34 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* ---------- kolory ----------
+   Jasny i ciemny wygląd: przeglądarka wybiera według ustawień systemu. */
 :root {
-  --bg: #f1efe9;
-  --ink: #16161a;
-  --brand: #b12341;   /* czerwień z logo */
+  color-scheme: light dark;
+  --bg: #f1efe9;        /* tło strony */
+  --ink: #16161a;       /* tekst */
+  --surface: #fff;      /* białe kafelki */
+  --line: #e6e4de;      /* linie oddzielające */
+  --brand: #b12341;     /* czerwień z logo (tła) */
+  --brand-text: #b12341;/* czerwień jako kolor tekstu */
   --blush: #f9d5dc;
   --sun: #ffd46b;
   --lilac: #ddd0ff;
-  --line: #e6e4de;
+  --on-pastel: #16161a; /* tekst na kolorowych kafelkach – zawsze ciemny */
   --r: 28px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141416;
+    --ink: #ece9e3;
+    --surface: #1f1f23;
+    --line: #34343a;
+    --brand-text: #ff7a93; /* jaśniejsza czerwień, żeby była czytelna na ciemnym tle */
+    /* kolorowe kafelki i plamy trochę przygaszone, żeby nie raziły w ciemności */
+    --blush: #e8bcc6;
+    --sun: #f0c255;
+    --lilac: #c4b5f0;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -38,12 +57,18 @@ body {
      (0.52 = wysokość „x” w Bricolage), więc tekst prawie nie przeskakuje przy podmianie czcionki. */
   font-size-adjust: 0.52;
   line-height: 1.45;
+  /* Przy bardzo dużym tekście za długie słowo przechodzi do nowej linii, zamiast wystawać */
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }
 h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; text-wrap: balance; }
 p { text-wrap: pretty; } /* bez pojedynczego słowa w ostatniej linii */
 section[id] { scroll-margin-top: 16px; }
+
+/* Zaznaczony tekst w kolorze marki; na czerwonych kafelkach odwrotnie, żeby było go widać */
+::selection { background: var(--brand); color: #fff; }
+.hero ::selection, .registry ::selection { background: #fff; color: var(--brand); }
 
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 12px; }
 
@@ -55,14 +80,15 @@ section[id] { scroll-margin-top: 16px; }
 
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--ink); color: #fff; text-decoration: none;
+  background: var(--ink); color: var(--bg); text-decoration: none;
   font-weight: 600; border-radius: 999px; padding: 12px 20px;
 }
-.btn.light { background: #fff; color: var(--ink); }
+.btn.light { background: #fff; color: #16161a; } /* na czerwonym tle – w obu trybach tak samo */
 
 /* ---------- kafelki ---------- */
-.bento { display: grid; gap: 12px; padding-bottom: 12px; }
-.tile { border-radius: var(--r); padding: 24px; position: relative; overflow: hidden; }
+/* minmax(0, …): kolumna nie poszerza się od zawartości, więc strona nigdy nie wychodzi poza ekran */
+.bento { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding-bottom: 12px; }
+.tile { border-radius: var(--r); padding: 24px; position: relative; }
 .k { font-size: .8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin-bottom: 14px; }
 
 /* hero */
@@ -72,6 +98,7 @@ section[id] { scroll-margin-top: 16px; }
   --under-blob: 125px; /* promień żółtego pola w rogu – zawsze mniejszy niż plama */
   background: radial-gradient(circle at 100% 100%, var(--sun) 0 var(--under-blob), var(--brand) calc(var(--under-blob) + 1px));
   color: #fff; min-height: 520px;
+  overflow: hidden; /* przycina plamy wystające poza kafelek */
   display: flex; flex-direction: column; justify-content: space-between;
 }
 .hero-text, .hero-cta { position: relative; z-index: 1; }
@@ -80,7 +107,11 @@ section[id] { scroll-margin-top: 16px; }
   border-radius: 999px; padding: 6px 12px; font-size: .875rem; font-weight: 600; margin-bottom: 20px;
 }
 /* Rośnie z szerokością ekranu, ale w granicach 52–128px; część w rem sprawia, że reaguje też na powiększenie */
-.hero h1 { font-size: clamp(3.25rem, .5rem + 12.5vw, 8rem); line-height: .9; }
+.hero h1 {
+  font-size: clamp(3.25rem, .5rem + 12.5vw, 8rem); line-height: .9;
+  /* przy bardzo powiększonym tekście na wąskim ekranie słowo może się złamać, zamiast poszerzać stronę */
+  overflow-wrap: anywhere;
+}
 .hero h1 .w { display: inline-block; }
 .hero p { font-size: 1.125rem; max-width: 400px; margin: 18px 0 24px; opacity: .92; }
 .blob {
@@ -90,7 +121,7 @@ section[id] { scroll-margin-top: 16px; }
 .blob.two { width: 90px; height: 90px; right: 150px; bottom: 30px; background: var(--blush); }
 
 /* o fundacji */
-.about { background: #fff; }
+.about { background: var(--surface); }
 .about h2 { font-size: 2.125rem; margin-bottom: 10px; }
 .about p { margin: 0; font-size: 1.125rem; max-width: 620px; }
 
@@ -98,16 +129,16 @@ section[id] { scroll-margin-top: 16px; }
 .act h3 { font-size: 1.75rem; margin: 40px 0 6px; }
 .act p { margin: 0; }
 .ico {
-  width: 56px; height: 56px; border-radius: 18px; background: var(--ink);
+  width: 56px; height: 56px; border-radius: 18px; background: var(--on-pastel);
   display: grid; place-items: center;
 }
 .ico svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.blush { background: var(--blush); }
-.lilac { background: var(--lilac); }
-.sun { background: var(--sun); }
+.blush { background: var(--blush); color: var(--on-pastel); }
+.lilac { background: var(--lilac); color: var(--on-pastel); }
+.sun { background: var(--sun); color: var(--on-pastel); }
 
 /* kontakt */
-.contact { background: #fff; display: flex; flex-direction: column; gap: 16px; }
+.contact { background: var(--surface); display: flex; flex-direction: column; gap: 16px; }
 .contact h2 { font-size: 2.125rem; }
 .rows { margin: 0; }
 .row {
@@ -115,26 +146,35 @@ section[id] { scroll-margin-top: 16px; }
   padding: 14px 0; border-top: 1px solid var(--line);
 }
 .row dt { opacity: .7; } /* nie mniej niż .7 – inaczej za słaby kontrast */
-.row dd { margin: 0; font-weight: 600; text-align: right; }
-.row a { text-decoration: none; }
-.row a:hover { color: var(--brand); }
+.row dd { margin: 0; font-weight: 600; text-align: right; min-width: 0; }
+.row a { text-decoration: none; overflow-wrap: anywhere; }
+.row a:hover { color: var(--brand-text); }
+/* Link e-mail: większy obszar do kliknięcia (min. 24px, a na ekranach dotykowych 44px),
+   bez zmiany wyglądu – dodatkowy odstęp jest „zjadany” przez ujemny margines */
+.row dd a { display: inline-block; padding-block: 2px; margin-block: -2px; }
+@media (pointer: coarse) {
+  .row dd a { padding-block: 12px; margin-block: -12px; }
+}
 
 /* dane rejestrowe (przezroczystość nie mniejsza niż .85 – inaczej za słaby kontrast na czerwieni) */
 .registry { background: var(--brand); color: #fff; }
 .registry .k { opacity: .85; }
-.registry dl { margin: 0; display: grid; gap: 14px; }
+.registry dl { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .registry dt { font-size: .875rem; opacity: .85; }
-.registry dd { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
+/* długi numer przy bardzo dużym tekście przechodzi do nowej linii, zamiast wystawać */
+.registry dd { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; overflow-wrap: anywhere; }
 
 .site-footer { padding: 20px 12px 32px; font-size: .875rem; opacity: .65; text-align: center; }
 .site-footer p { margin: 0; }
 
-/* ---------- komputer ---------- */
-@media (min-width: 900px) {
+/* ---------- komputer ----------
+   Próg w em (56.25em = 900px przy zwykłym rozmiarze tekstu): gdy ktoś powiększy czcionkę
+   w przeglądarce lub systemie, układ wcześniej przechodzi w jedną kolumnę i tekst się mieści. */
+@media (min-width: 56.25em) {
   .wrap { padding: 0 20px; }
   .site-header { padding: 36px 0 28px; }
 
-  .bento { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
   .tile { padding: 36px; }
 
   .hero { grid-column: 1 / -1; min-height: 560px; --under-blob: 180px; }
@@ -144,19 +184,24 @@ section[id] { scroll-margin-top: 16px; }
 
   .about { grid-column: span 2; }
   .contact { grid-column: span 2; }
-}
 
-/* strona 404 */
-@media (min-width: 900px) {
-  .hero.error { min-height: 560px; }
+  .hero.error { min-height: 560px; } /* strona 404 */
 }
 
 /* Najechanie myszką (tylko urządzenia z myszką) – bez ruchu, więc dla wszystkich */
 @media (hover: hover) {
   .tile.act, .tile.about, .tile.contact, .tile.registry { transition: box-shadow .35s ease; }
   .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { box-shadow: 0 18px 40px rgba(0,0,0,.08); }
-  .row dd a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .3s ease; }
+  .row dd a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; background-origin: content-box; transition: background-size .3s ease; }
   .row dd a:hover { background-size: 100% 1px; }
+}
+
+/* Tryb wysokiego kontrastu (Windows): przeglądarka usuwa kolory tła,
+   więc krawędzie kafelków, przycisku i ikon rysujemy ramką w kolorach systemu */
+@media (forced-colors: active) {
+  .tile, .ico { border: 1px solid CanvasText; }
+  .btn { border: 1px solid LinkText; }
+  .ico svg { stroke: CanvasText; }
 }
 
 /* ---------- animacje ----------
@@ -169,10 +214,17 @@ section[id] { scroll-margin-top: 16px; }
   .lockup img { animation: a-logo .9s cubic-bezier(.2,.7,.2,1) both; }
   @keyframes a-logo { from { opacity: 0; transform: translateY(-8px) scale(.94); } }
 
-  /* Hasło: słowa wjeżdżają po kolei; potem opis i przycisk */
-  .hero h1 .w {
-    animation: a-word .8s cubic-bezier(.2,.7,.2,1) both;
-    animation-delay: calc(300ms + var(--i) * 110ms);
+  /* Hasło: słowa wjeżdżają po kolei (co 110 ms), potem opis i przycisk.
+     Opóźnienie liczone z pozycji słowa (sibling-index); starsze przeglądarki dostają je z :nth-child. */
+  .hero h1 .w { animation: a-word .8s cubic-bezier(.2,.7,.2,1) both; animation-delay: 300ms; }
+  @supports (animation-delay: calc(sibling-index() * 0.1s)) {
+    .hero h1 .w { animation-delay: calc(190ms + sibling-index() * 110ms); }
+  }
+  @supports not (animation-delay: calc(sibling-index() * 0.1s)) {
+    .hero h1 .w:nth-child(2) { animation-delay: 410ms; }
+    .hero h1 .w:nth-child(3) { animation-delay: 520ms; }
+    .hero h1 .w:nth-child(4) { animation-delay: 630ms; }
+    .hero h1 .w:nth-child(5) { animation-delay: 740ms; }
   }
   @keyframes a-word { from { opacity: 0; transform: translateY(.4em); } }
   .hero .chip { animation: a-fade .8s ease .15s both; }

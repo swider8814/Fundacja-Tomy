@@ -26,11 +26,19 @@ Cała treść jest w `site/index.html`.
 - **E-mail** jest w HTML zapisany od tyłu (`data-u`, `data-d` w linku `.js-mail`) i składany przez `js/main.js` — ochrona przed robotami zbierającymi adresy. Przy zmianie adresu odwróć nowe części, np. `kontakt` → `tkatnok`.
 - **Dane dla wyszukiwarek** (JSON-LD, typ `NGO`) są w `<head>` strony głównej — przy zmianie danych rejestrowych zaktualizuj je też tam.
 - **Statystyki odwiedzin:** skrypt `wykr.es` w `<head>` (`index.html`, `404.html`), bez plików cookies.
+  Jego adres jest też w nagłówku Content-Security-Policy w `site/.htaccess` (`script-src` i `connect-src`) — przy zmianie trzeba go poprawić w obu miejscach.
+- **Skrypt wpisany w `<head>` strony głównej** (włączanie animacji) jest dopuszczony przez Content-Security-Policy po swoim skrócie `sha256-…`
+  w `site/.htaccess`. Po zmianie tego skryptu trzeba tam wpisać nowy skrót — workflow przed wysyłką sprawdza to sam i w razie
+  rozbieżności przerywa deploy, pokazując właściwy skrót. Nie dodawaj atrybutów `style="…"` ani bloków `<style>` w HTML — CSP je blokuje; style tylko w `css/style.css`.
 - **sitemap.xml:** przy dodaniu nowej podstrony dopisz jej adres.
 
-**Logo:** `site/img/logo.png` (kolor) i `logo-white.png` (białe, na ciemne tła), z przezroczystym tłem.
-Na stronie wyświetlane są pomniejszone kopie `logo-150.avif/.webp`, `logo-300.avif/.webp` i `logo-300.png` (zapas dla starych
-przeglądarek) — przy zmianie logo wygeneruj je na nowo z `logo.png` (szerokość 150 i 300 px). Ikony: `favicon.png`, `apple-touch-icon.png`. Kolor marki z logo: `#b12341` (zmienna `--brand` w `css/style.css`).
+**Tryb ciemny:** strona sama przełącza się na ciemne kolory, gdy taki wygląd jest ustawiony w systemie. Kolory obu trybów są
+na górze `css/style.css` (`:root` i blok `prefers-color-scheme: dark`).
+
+**Logo:** `site/img/logo.png` (kolor), `logo-dark.png` (jasne litery i czerwone „M”, do trybu ciemnego) i `logo-white.png`
+(całe białe, na ciemne tła), z przezroczystym tłem. Na stronie wyświetlane są pomniejszone kopie `logo-150.avif/.webp`,
+`logo-300.avif/.webp`, `logo-300.png` oraz `logo-dark-150.avif/.webp`, `logo-dark-300.avif/.webp`, `logo-dark-300.png`
+(PNG to zapas dla starych przeglądarek) — przy zmianie logo wygeneruj je na nowo z `logo.png` i `logo-dark.png` (szerokość 150 i 300 px). Ikony: `favicon.png`, `apple-touch-icon.png`. Kolor marki z logo: `#b12341` (zmienna `--brand` w `css/style.css`).
 
 Podgląd lokalnie: wystarczy otworzyć `site/index.html` w przeglądarce.
 
