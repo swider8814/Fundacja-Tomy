@@ -28,7 +28,9 @@ Cała treść jest w `site/index.html`.
 - **Statystyki odwiedzin:** skrypt `wykr.es` w `<head>` (`index.html`, `404.html`), bez plików cookies.
 - **sitemap.xml:** przy dodaniu nowej podstrony dopisz jej adres.
 
-**Logo:** `site/img/logo.png` (kolor) i `logo-white.png` (białe, na ciemne tła), z przezroczystym tłem. Ikony: `favicon.png`, `apple-touch-icon.png`. Kolor marki z logo: `#b12341` (zmienna `--brand` w `css/style.css`).
+**Logo:** `site/img/logo.png` (kolor) i `logo-white.png` (białe, na ciemne tła), z przezroczystym tłem.
+Na stronie wyświetlane są pomniejszone kopie `logo-150.avif/.webp`, `logo-300.avif/.webp` i `logo-300.png` (zapas dla starych
+przeglądarek) — przy zmianie logo wygeneruj je na nowo z `logo.png` (szerokość 150 i 300 px). Ikony: `favicon.png`, `apple-touch-icon.png`. Kolor marki z logo: `#b12341` (zmienna `--brand` w `css/style.css`).
 
 Podgląd lokalnie: wystarczy otworzyć `site/index.html` w przeglądarce.
 
