@@ -40,6 +40,8 @@ ErrorDocument 404 /404.html
 # --- Typy plików -------------------------------------------------------------
 AddType font/woff2 .woff2
 AddType image/x-icon .ico
+AddType image/avif .avif
+AddType image/webp .webp
 
 # --- Kompresja (szybsze ładowanie) ----------------------------------------------
 <IfModule mod_deflate.c>
@@ -59,6 +61,8 @@ AddType image/x-icon .ico
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType image/png "access plus 1 month"
   ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/avif "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
   ExpiresByType image/x-icon "access plus 1 month"
   ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>

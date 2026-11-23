@@ -65,9 +65,11 @@
     root.classList.add('anim-ready');
 
     // Różowa plama: przy przewijaniu unosi się szybciej niż strona (efekt głębi).
-    // Żółta plama stoi w miejscu — zakrywa róg kafelka (patrz .hero w style.css).
+    // Nowe przeglądarki robią to same w CSS (animation-timeline w style.css);
+    // ten kod działa tylko w starszych, które tego nie potrafią.
     var blob = document.querySelector('.hero .blob.two');
-    if (blob && 'translate' in blob.style) {
+    var cssScroll = window.CSS && CSS.supports && CSS.supports('(animation-timeline: scroll()) and (animation-range: entry)');
+    if (blob && !cssScroll && 'translate' in blob.style) {
       var ticking = false;
       var move = function () {
         ticking = false;

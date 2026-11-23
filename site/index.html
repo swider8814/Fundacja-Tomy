@@ -80,7 +80,11 @@
   <div class="wrap">
     <div class="bar">
       <a class="lockup" href="/" data-home aria-label="Fundacja Tomy – strona główna">
-        <img src="img/logo.png" alt="Fundacja Tomy" width="640" height="541">
+        <picture>
+          <source type="image/avif" srcset="img/logo-150.avif 150w, img/logo-300.avif 300w" sizes="(min-width: 900px) 142px, 100px">
+          <source type="image/webp" srcset="img/logo-150.webp 150w, img/logo-300.webp 300w" sizes="(min-width: 900px) 142px, 100px">
+          <img src="img/logo-300.png" alt="Fundacja Tomy" width="300" height="254">
+        </picture>
       </a>
     </div>
   </div>

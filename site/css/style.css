@@ -27,18 +27,22 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
   font-family: "Bricolage Grotesque", system-ui, sans-serif;
-  font-size: 17px;
+  /* Rozmiary pisma w rem: strona uwzględnia powiększenie czcionki ustawione w przeglądarce (1rem = zwykle 16px) */
+  font-size: 1.0625rem; /* 17px */
+  /* Zanim wczyta się Bricolage, czcionka zastępcza jest skalowana do tej samej wysokości małych liter
+     (0.52 = wysokość „x” w Bricolage), więc tekst prawie nie przeskakuje przy podmianie czcionki. */
+  font-size-adjust: 0.52;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }
-h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; }
+h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.035em; text-wrap: balance; }
+p { text-wrap: pretty; } /* bez pojedynczego słowa w ostatniej linii */
 section[id] { scroll-margin-top: 16px; }
 
 .wrap { max-width: 1240px; margin: 0 auto; padding: 0 12px; }
@@ -53,15 +57,13 @@ section[id] { scroll-margin-top: 16px; }
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--ink); color: #fff; text-decoration: none;
   font-weight: 600; border-radius: 999px; padding: 12px 20px;
-  transition: transform .15s ease;
 }
-.btn:hover { transform: translateY(-2px); }
 .btn.light { background: #fff; color: var(--ink); }
 
 /* ---------- kafelki ---------- */
 .bento { display: grid; gap: 12px; padding-bottom: 12px; }
 .tile { border-radius: var(--r); padding: 24px; position: relative; overflow: hidden; }
-.k { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin-bottom: 14px; }
+.k { font-size: .8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin-bottom: 14px; }
 
 /* hero */
 .hero {
@@ -75,27 +77,25 @@ section[id] { scroll-margin-top: 16px; }
 .hero-text, .hero-cta { position: relative; z-index: 1; }
 .chip {
   display: inline-block; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .35);
-  border-radius: 999px; padding: 6px 12px; font-size: 14px; font-weight: 600; margin-bottom: 20px;
+  border-radius: 999px; padding: 6px 12px; font-size: .875rem; font-weight: 600; margin-bottom: 20px;
 }
-.hero h1 { font-size: clamp(50px, 14vw, 128px); line-height: .9; }
-.hero p { font-size: 18px; max-width: 400px; margin: 18px 0 24px; opacity: .92; }
+/* Rośnie z szerokością ekranu, ale w granicach 52–128px; część w rem sprawia, że reaguje też na powiększenie */
+.hero h1 { font-size: clamp(3.25rem, .5rem + 12.5vw, 8rem); line-height: .9; }
+.hero h1 .w { display: inline-block; }
+.hero p { font-size: 1.125rem; max-width: 400px; margin: 18px 0 24px; opacity: .92; }
 .blob {
   position: absolute; width: 200px; height: 200px; right: -60px; bottom: -60px;
   background: var(--sun); border-radius: 46% 54% 40% 60% / 55% 45% 55% 45%;
-  animation: morph 9s ease-in-out infinite;
 }
-.blob.two { width: 90px; height: 90px; right: 150px; bottom: 30px; background: var(--blush); animation-duration: 12s; }
-@keyframes morph {
-  50% { border-radius: 60% 40% 55% 45% / 40% 60% 40% 60%; transform: rotate(25deg) scale(1.05); }
-}
+.blob.two { width: 90px; height: 90px; right: 150px; bottom: 30px; background: var(--blush); }
 
 /* o fundacji */
 .about { background: #fff; }
-.about h2 { font-size: 34px; margin-bottom: 10px; }
-.about p { margin: 0; font-size: 18px; max-width: 620px; }
+.about h2 { font-size: 2.125rem; margin-bottom: 10px; }
+.about p { margin: 0; font-size: 1.125rem; max-width: 620px; }
 
 /* działania */
-.act h3 { font-size: 28px; margin: 40px 0 6px; }
+.act h3 { font-size: 1.75rem; margin: 40px 0 6px; }
 .act p { margin: 0; }
 .ico {
   width: 56px; height: 56px; border-radius: 18px; background: var(--ink);
@@ -108,25 +108,25 @@ section[id] { scroll-margin-top: 16px; }
 
 /* kontakt */
 .contact { background: #fff; display: flex; flex-direction: column; gap: 16px; }
-.contact h2 { font-size: 34px; }
+.contact h2 { font-size: 2.125rem; }
 .rows { margin: 0; }
 .row {
   display: flex; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap;
   padding: 14px 0; border-top: 1px solid var(--line);
 }
-.row dt { opacity: .55; }
+.row dt { opacity: .7; } /* nie mniej niż .7 – inaczej za słaby kontrast */
 .row dd { margin: 0; font-weight: 600; text-align: right; }
 .row a { text-decoration: none; }
 .row a:hover { color: var(--brand); }
 
-/* dane rejestrowe */
+/* dane rejestrowe (przezroczystość nie mniejsza niż .85 – inaczej za słaby kontrast na czerwieni) */
 .registry { background: var(--brand); color: #fff; }
-.registry .k { opacity: .75; }
+.registry .k { opacity: .85; }
 .registry dl { margin: 0; display: grid; gap: 14px; }
-.registry dt { font-size: 14px; opacity: .7; }
-.registry dd { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+.registry dt { font-size: .875rem; opacity: .85; }
+.registry dd { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
 
-.site-footer { padding: 20px 12px 32px; font-size: 14px; opacity: .65; text-align: center; }
+.site-footer { padding: 20px 12px 32px; font-size: .875rem; opacity: .65; text-align: center; }
 .site-footer p { margin: 0; }
 
 /* ---------- komputer ---------- */
@@ -146,67 +146,85 @@ section[id] { scroll-margin-top: 16px; }
   .contact { grid-column: span 2; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .blob { animation: none; }
-  html { scroll-behavior: auto; }
-}
-
 /* strona 404 */
 @media (min-width: 900px) {
   .hero.error { min-height: 560px; }
 }
 
-/* ---------- animacje ---------- */
-
-/* Logo: łagodne pojawienie się */
-.lockup img { animation: a-logo .9s cubic-bezier(.2,.7,.2,1) both; }
-@keyframes a-logo { from { opacity: 0; transform: translateY(-8px) scale(.94); } }
-
-/* Hasło: słowa wjeżdżają po kolei; potem opis i przycisk */
-.hero h1 .w {
-  display: inline-block; opacity: 0; transform: translateY(.4em);
-  animation: a-word .8s cubic-bezier(.2,.7,.2,1) forwards;
-  animation-delay: calc(300ms + var(--i) * 110ms);
-}
-@keyframes a-word { to { opacity: 1; transform: none; } }
-.hero .chip { animation: a-fade .8s ease .15s both; }
-.hero p { animation: a-fade .8s ease .75s both; }
-.hero-cta { animation: a-fade .8s ease .9s both; }
-@keyframes a-fade { from { opacity: 0; transform: translateY(10px); } }
-
-/* Kafelki: pojawiają się przy przewijaniu, po kolei (klasy ustawia js/main.js) */
-.js-anim .tile:not(.hero) {
-  opacity: 0; transform: translateY(28px);
-  transition: opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1);
-  transition-delay: var(--d, 0ms);
-}
-.js-anim .tile.is-in { opacity: 1; transform: none; }
-
-/* Ikony: jedno krótkie „podskoczenie”, gdy kafelek się pojawi */
-.js-anim .tile.is-in .ico { animation: a-pop .6s cubic-bezier(.3,1.6,.5,1) both; animation-delay: calc(var(--d, 0ms) + 250ms); }
-@keyframes a-pop { from { transform: scale(.6) rotate(-12deg); } }
-
-/* Różowa plama: ruch przy przewijaniu (ustawia js/main.js przez właściwość translate) */
-.blob.two { will-change: translate; }
-
-/* Najechanie myszką (tylko urządzenia z myszką) */
+/* Najechanie myszką (tylko urządzenia z myszką) – bez ruchu, więc dla wszystkich */
 @media (hover: hover) {
+  .tile.act, .tile.about, .tile.contact, .tile.registry { transition: box-shadow .35s ease; }
+  .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+  .row dd a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .3s ease; }
+  .row dd a:hover { background-size: 100% 1px; }
+}
+
+/* ---------- animacje ----------
+   Wszystko poniżej działa tylko wtedy, gdy ktoś NIE wyłączył animacji w systemie.
+   Domyślnie strona jest nieruchoma, a ruch jest dodatkiem. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  /* Logo: łagodne pojawienie się */
+  .lockup img { animation: a-logo .9s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes a-logo { from { opacity: 0; transform: translateY(-8px) scale(.94); } }
+
+  /* Hasło: słowa wjeżdżają po kolei; potem opis i przycisk */
+  .hero h1 .w {
+    animation: a-word .8s cubic-bezier(.2,.7,.2,1) both;
+    animation-delay: calc(300ms + var(--i) * 110ms);
+  }
+  @keyframes a-word { from { opacity: 0; transform: translateY(.4em); } }
+  .hero .chip { animation: a-fade .8s ease .15s both; }
+  .hero p { animation: a-fade .8s ease .75s both; }
+  .hero-cta { animation: a-fade .8s ease .9s both; }
+  @keyframes a-fade { from { opacity: 0; transform: translateY(10px); } }
+
+  /* Plamy: jedna zmiana kształtu po wejściu na stronę, potem stoją */
+  .blob { animation: morph 9s ease-in-out; }
+  .blob.two { animation-duration: 12s; }
+  @keyframes morph {
+    50% { border-radius: 60% 40% 55% 45% / 40% 60% 40% 60%; transform: rotate(25deg) scale(1.05); }
+  }
+
+  /* Różowa plama: przy przewijaniu unosi się szybciej niż strona (efekt głębi).
+     Robi to sama przeglądarka (animacja sterowana przewijaniem); w starszych przeglądarkach
+     to samo robi js/main.js. Żółta plama stoi w miejscu — zakrywa róg kafelka (patrz .hero). */
+  .blob.two { will-change: translate; }
+  @supports ((animation-timeline: scroll()) and (animation-range: entry)) {
+    .hero .blob.two {
+      animation: morph 12s ease-in-out, a-rise linear both;
+      /* timeline i range po skrócie "animation", bo skrót by je wyzerował */
+      animation-timeline: auto, scroll(root);
+      animation-range: normal, 0px 900px;
+    }
+    @keyframes a-rise { to { translate: 0 -225px; } }
+  }
+
+  /* Kafelki: pojawiają się przy przewijaniu, po kolei (klasy ustawia js/main.js) */
+  .js-anim .tile:not(.hero) {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity .7s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+    transition-delay: var(--d, 0ms);
+  }
+  .js-anim .tile.is-in { opacity: 1; transform: none; }
+
+  /* Ikony: jedno krótkie „podskoczenie”, gdy kafelek się pojawi */
+  .js-anim .tile.is-in .ico { animation: a-pop .6s cubic-bezier(.3,1.6,.5,1) both; animation-delay: calc(var(--d, 0ms) + 250ms); }
+  @keyframes a-pop { from { transform: scale(.6) rotate(-12deg); } }
+}
+
+/* Ruch po najechaniu myszką */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .btn { transition: transform .15s ease; }
+  .btn:hover { transform: translateY(-2px); }
   .tile.act, .tile.about, .tile.contact, .tile.registry { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; }
   /* po zakończeniu wjazdu (klasa .settled) kafelek reaguje na mysz od razu, bez opóźnienia */
   .js-anim .tile.settled { transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease; transition-delay: 0ms; }
-  .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+  .tile.act:hover, .tile.about:hover, .tile.contact:hover, .tile.registry:hover { transform: translateY(-6px); }
   .ico { transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
   .tile.act:hover .ico { transform: rotate(-8deg) scale(1.1); }
   .btn .arr { display: inline-block; transition: transform .25s ease; }
   .btn:hover .arr { transform: translateX(5px); }
   .btn:hover .arr.back { transform: translateX(-5px); }
-  .row dd a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .3s ease; }
-  .row dd a:hover { background-size: 100% 1px; }
-}
-
-/* Osoby, które w systemie wyłączyły animacje, nie zobaczą żadnej z nich */
-@media (prefers-reduced-motion: reduce) {
-  .lockup img, .hero h1 .w, .hero .chip, .hero p, .hero-cta, .tile .ico { animation: none !important; opacity: 1 !important; transform: none !important; }
-  .tile, .ico, .btn .arr { transition: none !important; }
-  .tile:hover, .tile:hover .ico, .btn:hover .arr { transform: none !important; }
 }
